@@ -1,1 +1,1 @@
-Solutions for labs if Computer Systems: A Programmer's Perspective
+Solutions for labs of Computer Systems: A Programmer's Perspective
