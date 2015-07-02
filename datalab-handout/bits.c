@@ -177,39 +177,30 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-    int val1, val2, val3, val4, val5, val6, val;
-    //0x55555555
-    val1 = (0x55 << 8) | 0x55;
-    val1 = (val1 << 16) | val1;
+    int mask, count;
+    //mask = 0001 0001 0001 0001 0001 0001 0001 0001
+    mask = 0x11 | (0x11 << 8);
+    mask = mask | (mask << 16);
 
-    //0x33333333
-    val2 = (0x33 << 8) | 0x33;
-    val2 = (val2 << 16) | val2;
+    //calculate counts of 8 partials
+    count = x & mask;
+    count += (x >> 1) & mask;
+    count += (x >> 2) & mask;
+    count += (x >> 3) & mask;
 
-    //0x0f0f0f0f
-    val3 = (0x0f << 8) | 0x0f;
-    val3 = (val3 << 16) | val3;
+    //combine the high order count to low order
+    //then we just need to calculate the counts of low 4 partials
+    count = count + (count >> 16);
 
-    //0x01010101
-    val4 = (0x01 << 8) | 0x01;
-    val4 = (val4 << 16) | val4;
+    mask = 0xf | (0xf << 8);
+    //to calculate the counts of low 4 partials
+    //first calculate half counts
+    count = (count & mask) + ((count >> 4) & mask);
+    //the combine half counts
+    count = count + (count >> 8);
 
-    //0x00ff00ff
-    val5 = (0xff << 16) | 0xff;
-
-    //0x0000ffff
-    val6 = (0xff << 8) | 0xff;
-
-    //step1: x - ((x >> 1) & val1);
-    val = (x & val1)  + ((x >> 1) & val1);
-    //step2
-    val = (val & val2) + ((val >> 2) & val2);
-    //step3: ((val + (val >> 4) & val3) * val4) >> 24;
-    val = (val & val3) + ((val >> 4) & val3);
-    val = (val & val5) + ((val >> 8) & val5);
-    val = (val & val6) + ((val >> 16) & val6);
-
-    return val;
+    //the low 6 bits is the count
+    return count & 0x3f;
 }
 /* 
  * bang - Compute !x without using !
@@ -291,7 +282,15 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-    return 2;
+    //figure out if sign(x), sign(y) is equal
+    int neq_signs = (x ^ y) >> 31;
+    //if signs not equal bias is 0, otherwise (-y-1)
+    int bias = ~(neq_signs | y);
+    //if sign(x) == sign(y), return (-1) & 1;
+    //if sign(x) != sign(y),
+    //then if x > 0, (y must be y < 0) return 0,
+    //otherwise (x < 0, y > 0) return (-1) & 1
+    return ((x + bias) >> 31) & 1;
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
@@ -301,7 +300,33 @@ int isLessOrEqual(int x, int y) {
  *   Rating: 4
  */
 int ilog2(int x) {
-    return 2;
+    int mask, count;
+    //set every bit to 1 which are below the high order of bit 1
+    //for 16 = 0x00000010 set to 0x0000001f
+    x |= (x >> 1);
+    x |= (x >> 2);
+    x |= (x >> 4);
+    x |= (x >> 8);
+    x |= (x >> 16);
+
+    x = (x >> 1);
+
+    //bitCount(x);
+    mask = 0x11 | (0x11 << 8);
+    mask = mask | (mask << 16);
+
+    count = x & mask;
+    count += (x >> 1) & mask;
+    count += (x >> 2) & mask;
+    count += (x >> 3) & mask;
+
+    count = count + (count >> 16);
+
+    mask = 0xf | (0xf << 8);
+    count = (count & mask) + ((count >> 4) & mask);
+    count = count + (count >> 8);
+
+    return count & 0x3f;
 }
 /* 
  * float_neg - Return bit-level equivalent of expression -f for
@@ -315,7 +340,12 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
-    return 2;
+    int mask = (0x7f << 8) | 0xff;
+    mask = (mask << 16) | 0xffff;
+    if ((uf & mask) > (0xff << 23))
+        return uf;
+    else
+        return uf ^ (1 << 31);
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
