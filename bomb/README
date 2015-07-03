@@ -14,6 +14,7 @@ bomb.bin                - The binary file in txt get by hexedit
 
 test.txt                - The solutions for phase
 interpretation.txt      - The interpretation of solutions
+interpretation.docx     - With a better read style of the interpretation of solutions
 
 support.h
 support.c               - Original source code by reverse assemble code
