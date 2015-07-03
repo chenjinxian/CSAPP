@@ -1,0 +1,21 @@
+#######################################################
+# CS:APP Bomb Lab
+# Directions to Instructors
+#######################################################
+
+The ./bomblab directory contains the following files:
+
+bomb                    - The executable binary bomb
+bomb.c                  - Source file with the bomb's main routine
+bomb32.s                - Assembly code file in i386  with the bomb, generate by objdump -d -m i386
+bomb64.s                - Assembly code file in x86_64 with the bomb, generate by objdump -d
+bomb.strings            - Printable strings in bomb
+bomb.bin                - The binary file in txt get by hexedit
+
+test.txt                - The solutions for phase
+interpretation.txt      - The interpretation of solutions
+
+support.h
+support.c               - Original source code by reverse assemble code
+phase.h
+phase.c                 - Original source code by reverse assemble code
