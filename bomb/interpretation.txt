@@ -132,3 +132,18 @@ index 6: 00400f9f, num = 0x2aa = 682, solution is (6, 682)
 index 7: 00400fa6, num = 0x147 = 327, solution is (7, 327)
 get it!
 
+#******************************************************
+phase_4:
+#******************************************************
+
+go to function phase_4 at address 0x40100c
+first call sscanf to get two numbers by input_string, and set two numbers to %rsp+8, %rsp+12
+the first number must be blow or equal to 0xe
+
+then call function func4, take three argments 0xe, 0x0, %rsp+8(the first number)
+func4 is to recursively detect wheather the first number is equal to SAR(Arithmetic right shit)of 0xe,
+then SAR of SAR of 0xe, ...
+
+back to phase_4, at address 0x401051, to cmpare the second number(%rsp+c) with 0x0, so the second number is 0
+
+the solution is (7, 0) or (3, 0) or (1, 0)
