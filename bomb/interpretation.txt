@@ -49,7 +49,7 @@ in phase_1, call function of strings_not_equal with two argments,
 one is the input_string by argment of phase_1, another is a point to address 0x402400
 
 in hexedit, go to address (0x402400-0x00000000) 0x0002400,
-we can see the address point to a string with 0 terminate.
+we can see the address point to a string with 0 terminated.
 
 #******************************************************
     42 6F 72 64  65 72 20 72  65 6C 61 74  69 6F 6E 73
@@ -147,3 +147,35 @@ then SAR of SAR of 0xe, ...
 back to phase_4, at address 0x401051, to cmpare the second number(%rsp+c) with 0x0, so the second number is 0
 
 the solution is (7, 0) or (3, 0) or (1, 0)
+
+#******************************************************
+phase_5:
+#******************************************************
+
+go to function phase_5 at address 0x401062
+at address 0x40106a and 0x4010de to 0x4010e9 used stack protector with canary(guard value)
+
+first, call function string_length to make sure length of the input string is 6
+
+at address 0x40108b to 0x4010ac is a loop from index 1 to 6, every time get one char from the input_string,
+and take the char in byte, for example ascii char a(0x61), b(0x62) will be 0x1, 0x2 in byte
+
+now take a look at address 0x4024b0:
+    6D 61 64 75  69 65 72 73  6E 66 6F 74  76 62 79 6C the following hex values can escape
+    m  a  d  u   i  e  r  s   n  f  o  t   v  b  y  l
+
+and addrees 0x40245e:
+    21 00 66 6C  79 65 72 73  00 00 00 00  obviously is a string with 0 terminated
+    "flyers"
+
+we want to get six char from address 0x4024b0+index(six char in byte from input string),
+to construct a string with 0 terminated, and the string should equal to "flyers"
+
+from address 0x4024b0, we can get the six index must be (9 15 14 5 6 7)(in hex: 9 f e 5 6 7)
+
+so the solution is a string with six ascii char, which the low byte with (9 f e 5 6 7)
+
+in ASCII printable code:
+such as
+    )/.%&'(29 2f 2e 25 26 27)   ionefg(69 6f be 65 66 67)
+you can combine every char among (*9 *f *e *5 *6 *7)(* can be 2, 3, 4, 5, 6, 7) by yourself
