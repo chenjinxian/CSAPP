@@ -31,5 +31,6 @@
 # Temp
 *.DS_Store
 *.tar
+*.bak
 
 template.c
