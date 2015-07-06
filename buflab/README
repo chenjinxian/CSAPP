@@ -4,11 +4,22 @@
 
 The ./buflab directory contains the following files:
 
-bufbomb                     - The executable binary bomb
-bufbomb32.s                 - Assembly code file in i386  with the bomb, generate by objdump -d -m i386
-bufbomb.strings             - Printable strings in bomb
+hex2raw                     - A utility to help convert between string formats
+makecookie                  - Generate a "cookie" based on your userid
+
+bufbomb                     - The buffer bomb program you will attack
+bufbomb32.s                 - Assembly code file with the bufbomb, generate by objdump -d -m i386
+bufbomb.strings             - Printable strings in bufbomb
 
 somke.txt                   - The hex digit for solution of smoke
 somke.raw                   - The input string for solution of smoke
+
+fizz.txt                    - The hex digit for solution of fizz
+fizz.raw                    - The input string for solution of fizz
+
+bang.txt                    - The hex digit for solution of bang
+bang.raw                    - The input string for solution of bang
+bang.s                      - The instruct in assemble
+bang.d                      - The instruct in disassemble
 
 interpretation.txt          - The interpretation of solutions
