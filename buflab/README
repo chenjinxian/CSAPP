@@ -1,0 +1,14 @@
+#######################################################
+# CS:APP Buf Lab
+#######################################################
+
+The ./buflab directory contains the following files:
+
+bufbomb                     - The executable binary bomb
+bufbomb32.s                 - Assembly code file in i386  with the bomb, generate by objdump -d -m i386
+bufbomb.strings             - Printable strings in bomb
+
+somke.txt                   - The hex digit for solution of smoke
+somke.raw                   - The input string for solution of smoke
+
+interpretation.txt          - The interpretation of solutions

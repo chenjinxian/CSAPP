@@ -1,0 +1,66 @@
+#######################################################
+# CS:APP Bomb Lab
+#######################################################
+
+#gcc version
+Target: x86_64-redhat-linux
+Thread model: posix
+gcc version 4.8.3 20140911 (Red Hat 4.8.3-9) (GCC) 
+
+#######################################################
+#gdb version
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-64.el7
+This GDB was configured as "x86_64-redhat-linux-gnu".
+
+#######################################################
+#objdump version
+GNU objdump version 2.23.52.0.1-30.el7 20130226
+
+#######################################################
+
+1.Ready for disassembly
+
+Get the assembly code file by the command in terminal
+objdump -d bomb > bomb64.s
+
+Get strings of bomb
+strings bomb > bomb.strings
+
+Open binary file by hexedit
+hexedit bomb 
+
+#######################################################
+
+
+#******************************************************
+smoke:
+#******************************************************
+
+go to function getbuf at address 0x080491f4
+
+stack organization for getbuf function:
+           __________________
+           |                |
+           |                |
+           |                |
+           __________________
+           | Return address |               4 bytes
+           __________________
+           |  Saved %ebp    | <--- %ebp     4 bytes
+           __________________
+           |  Saved %eax    |               4 bytes
+           __________________
+           |                |
+           | 35  .......  0 | buf           36 bytes
+           __________________
+           |                |
+           |                |
+           |                |
+           __________________
+
+we can set the input string with 48 bytes to change the return address of function getbuf
+set the last 4 bytes with the address of function smoke(0x08048c18)
+the other bytes can be whatever you like
+
+int a little endian machine, solution can be 
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 18 8c 04 08
