@@ -94,15 +94,15 @@ first, touch a bang.s file in assemble(see the bang.s in folder buflab)
 then compile it to an object file by command "gcc -m32 -c bang.s"
 to get the instruction in hex digit, we disassemble bang.s with command "objdump -d bang.o > bang.d"
 
-the genareted byte codes now in file bang.d
+the exploit codes now in file bang.d
 
-now, it's necessary to let the getbuf ret to an address which points to the genareted byte codes by last step
+now, it's necessary to let the getbuf ret to an address which points to the exploit code by last step
 so the instruct will execute in your way
 
 this time, we set the return address point to the start address of input string, not a specifc function
 the start address of input string is %ebp-0x28(40), we can get it in gdb, 0x556835b8
 
-and store the genareted byte codes in the stack address 0, to 35
+and store the exploit code in the stack address 0, to 35
 the stack organization is above in smoke
 
 the solution is:
@@ -145,3 +145,20 @@ c3
 10 36 68 55     /* restore %ebp */
 b8 35 68 55
 
+#******************************************************
+level4: Nitroglycerin
+#******************************************************
+
+for this level, the gebufn function used the method of Stack Randomization
+so , we should set as many as "nop sled" instructions before the exploit code
+
+with the gdb tool, we found that the Stack only random in 5 case
+and the value of %ebp differ by as mush as (+-)240, in my machine from 0x556835e0 to 0x55683630
+
+the address of %eax is from 0x556833c8 to 0x55683428
+set address of 0x55683428 as the return address,
+no matter what the stack address is, we can execute the exploit code with enough "nop sled"
+
+the exploit code is in file nitro.d
+
+the solution is in file nitro.txt

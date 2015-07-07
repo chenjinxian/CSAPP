@@ -27,4 +27,9 @@ dynamite.raw                - The input string for solution of dynamite
 dynamite.s                  - The instruct in assemble
 dynamite.d                  - The instruct in disassemble
 
+nitro.txt                   - The hex digit for solution of nitro
+nitro.raw                   - The input string for solution of nitro
+nitro.s                     - The instruct in assemble
+nitro.d                     - The instruct in disassemble
+
 interpretation.txt          - The interpretation of solutions
