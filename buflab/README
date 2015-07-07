@@ -22,4 +22,9 @@ bang.raw                    - The input string for solution of bang
 bang.s                      - The instruct in assemble
 bang.d                      - The instruct in disassemble
 
+dynamite.txt                - The hex digit for solution of dynamite
+dynamite.raw                - The input string for solution of dynamite
+dynamite.s                  - The instruct in assemble
+dynamite.d                  - The instruct in disassemble
+
 interpretation.txt          - The interpretation of solutions
