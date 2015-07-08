@@ -38,6 +38,8 @@ sum.yo      Result of assembling sum.ys by YAS
 sum.out     Output of excution of sum.yo by YIS
 
 rsum.ys		Solution rsum function (instructor distribution only)
+rsum.yo     Result of assembling rsum.ys by YAS
+rsum.out    Output of excution of rsum.yo by YIS
 
 copy.ys		Solution copy function (instructor distribution only)
 
