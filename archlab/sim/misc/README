@@ -34,13 +34,12 @@ Makefile-sim
 examples.c		C versions of three Y86 functions 
 
 sum.ys		Solution sum function (instructor distribution only)
-sum.yo      generate by yas sum.ys
+sum.yo      Result of assembling sum.ys by YAS
+sum.out     Output of excution of sum.yo by YIS
 
 rsum.ys		Solution rsum function (instructor distribution only)
-rsum.yo     generate by yas rsum.yo
 
 copy.ys		Solution copy function (instructor distribution only)
-copy.yo     generate by yas copy.so
 
 
 * Instruction simulator code shared by yas, yis, ssim, ssim+, and psim
