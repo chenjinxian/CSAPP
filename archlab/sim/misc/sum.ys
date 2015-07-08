@@ -35,7 +35,7 @@ sum_list:
         xorl %eax,%eax          # sum = 0
         andl %edx,%edx          # Set condition codes
         je End
-Loop:   mrmovl (%edx),%esi      # get *ele1
+Loop:   mrmovl (%edx),%esi      # get *ls
         addl %esi,%eax          # add to sum
         mrmovl 4(%edx),%edx
         andl %edx,%edx          # Set condition codes

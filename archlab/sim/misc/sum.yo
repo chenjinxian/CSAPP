@@ -35,7 +35,7 @@
   0x04c: 6300         |         xorl %eax,%eax          # sum = 0
   0x04e: 6222         |         andl %edx,%edx          # Set condition codes
   0x050: 736a000000   |         je End
-  0x055: 506200000000 | Loop:   mrmovl (%edx),%esi      # get *ele1
+  0x055: 506200000000 | Loop:   mrmovl (%edx),%esi      # get *ls
   0x05b: 6060         |         addl %esi,%eax          # add to sum
   0x05d: 502204000000 |         mrmovl 4(%edx),%edx
   0x063: 6222         |         andl %edx,%edx          # Set condition codes
