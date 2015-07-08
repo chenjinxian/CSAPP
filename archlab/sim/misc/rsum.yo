@@ -1,0 +1,53 @@
+                      | # Execution begins at address 0
+  0x000:              | 	    .pos 0
+  0x000: 30f400010000 | init:	irmovl Stack, %esp      # Set up stack pointer
+  0x006: 30f500010000 |         irmovl Stack, %ebp      # Set up base pointer
+  0x00c: 802c000000   |         call Main               # Execute main program
+  0x011: 00           |         halt                    # Terminate program
+                      | 
+                      | # List of 3 elements
+  0x014:              |         .align  4
+  0x014: 000c0000     | ele3:   .long   0xc00 
+  0x018: 00000000     |         .long   0x0
+                      | 
+  0x01c:              |         .align  4
+  0x01c: b0000000     | ele2:   .long   0xb0 
+  0x020: 14000000     |         .long   ele3
+                      | 
+  0x024:              |         .align  4
+  0x024: 0a000000     | ele1:   .long   0xa 
+  0x028: 1c000000     |         .long   ele2
+                      | 
+  0x02c: a05f         | Main:   pushl %ebp
+  0x02e: 2045         |         rrmovl %esp,%ebp
+  0x030: 30f224000000 |         irmovl $ele1,%edx
+  0x036: a02f         |         pushl %edx              # Push &ele1
+  0x038: 8042000000   |         call rsum_list          # rsum_list(&ele1)
+  0x03d: 2054         |         rrmovl %ebp,%esp
+  0x03f: b05f         |         popl %ebp
+  0x041: 90           |         ret
+                      | 
+                      |         # int rsum_list(list_ptr ls)
+  0x042:              | rsum_list:
+  0x042: a05f         |         pushl %ebp
+  0x044: 2045         |         rrmovl %esp,%ebp
+  0x046: a03f         |         pushl %ebx
+  0x048: 503508000000 |         mrmovl 8(%ebp),%ebx     # ebx = ls
+  0x04e: 6233         |         andl %ebx,%ebx          # Set condition codes
+  0x050: 736f000000   |         je L38
+  0x055: 500304000000 |         mrmovl 4(%ebx),%eax
+  0x05b: a00f         |         pushl %eax
+  0x05d: 8042000000   |         call rsum_list          # rsum_list(ls->next)
+  0x062: 502300000000 |         mrmovl (%ebx),%edx      # get *ls
+  0x068: 6020         |         addl %edx,%eax          # add ls->val
+  0x06a: 7071000000   |         jmp L39                 # goto done
+                      | 
+  0x06f: 6300         | L38:    xorl %eax,%eax          # zreturn
+  0x071: 5035fcffffff | L39:    mrmovl -4(%ebp),%ebx    # done: Restore %ebx
+  0x077: 2054         |         rrmovl %ebp,%esp
+  0x079: b05f         |         popl %ebp
+  0x07b: 90           |         ret
+                      | 
+                      | # The stack starts here and grows to lower addresses
+  0x100:              |         .pos 0x100
+  0x100:              | Stack:

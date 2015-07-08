@@ -1,0 +1,53 @@
+# Execution begins at address 0
+	    .pos 0
+init:	irmovl Stack, %esp      # Set up stack pointer
+        irmovl Stack, %ebp      # Set up base pointer
+        call Main               # Execute main program
+        halt                    # Terminate program
+
+# List of 3 elements
+        .align  4
+ele3:   .long   0xc00 
+        .long   0x0
+
+        .align  4
+ele2:   .long   0xb0 
+        .long   ele3
+
+        .align  4
+ele1:   .long   0xa 
+        .long   ele2
+
+Main:   pushl %ebp
+        rrmovl %esp,%ebp
+        irmovl $ele1,%edx
+        pushl %edx              # Push &ele1
+        call rsum_list          # rsum_list(&ele1)
+        rrmovl %ebp,%esp
+        popl %ebp
+        ret
+
+        # int rsum_list(list_ptr ls)
+rsum_list:
+        pushl %ebp
+        rrmovl %esp,%ebp
+        pushl %ebx
+        mrmovl 8(%ebp),%ebx     # ebx = ls
+        andl %ebx,%ebx          # Set condition codes
+        je L38
+        mrmovl 4(%ebx),%eax
+        pushl %eax
+        call rsum_list          # rsum_list(ls->next)
+        mrmovl (%ebx),%edx      # get *ls
+        addl %edx,%eax          # add ls->val
+        jmp L39                 # goto done
+
+L38:    xorl %eax,%eax          # zreturn
+L39:    mrmovl -4(%ebp),%ebx    # done: Restore %ebx
+        rrmovl %ebp,%esp
+        popl %ebp
+        ret
+
+# The stack starts here and grows to lower addresses
+        .pos 0x100
+Stack:
