@@ -2,8 +2,8 @@
 	    .pos 0
 init:	irmovl Stack, %esp      # Set up stack pointer
         irmovl Stack, %ebp      # Set up base pointer
-        call Main               # Set up stack pointer
-        halt                    # Set up stack pointer
+        call Main               # Execute main program
+        halt                    # Terminate program
 
 # List of 3 elements
         .align  4
@@ -21,7 +21,7 @@ ele1:   .long   0xa
 Main:   pushl %ebp
         rrmovl %esp,%ebp
         irmovl $ele1,%edx
-        pushl %edx              # Push array
+        pushl %edx              # Push &ele1
         call sum_list           # sum_list(&ele1)
         rrmovl %ebp,%esp
         popl %ebp
@@ -35,7 +35,7 @@ sum_list:
         xorl %eax,%eax          # sum = 0
         andl %edx,%edx          # Set condition codes
         je End
-Loop:   mrmovl (%edx),%esi      # get *Start
+Loop:   mrmovl (%edx),%esi      # get *ele1
         addl %esi,%eax          # add to sum
         mrmovl 4(%edx),%edx
         andl %edx,%edx          # Set condition codes
