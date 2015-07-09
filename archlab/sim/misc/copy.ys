@@ -1,0 +1,59 @@
+# Execution begins at address 0
+	    .pos 0
+init:	irmovl Stack, %esp      # Set up stack pointer
+        irmovl Stack, %ebp      # Set up base pointer
+        call Main               # Execute main program
+        halt                    # Terminate program
+
+        .align  4
+# Source block
+src:
+        .long 0x00a
+        .long 0x0b0
+        .long 0xc00
+
+# Destination block
+dest:
+        .long 0x111
+        .long 0x222
+        .long 0x333
+
+Main:   pushl %ebp
+        rrmovl %esp,%ebp
+        irmovl $3,%eax
+        pushl %eax              # Push 3(len)
+        irmovl dest,%ecx
+        pushl %ecx              # Push dest
+        irmovl src,%edx
+        pushl %edx              # Push src
+        call copy_block         # copy_block(src, dest, len)
+        rrmovl %ebp,%esp
+        popl %ebp
+        ret
+
+        # int copy_block(int *src, int *dest, int len)
+copy_block:
+        pushl %ebp
+        rrmovl %esp,%ebp
+        mrmovl 8(%ebp),%ebx     # ebx = src
+        mrmovl 12(%ebp),%ecx    # ecx = dest
+        mrmovl 16(%ebp),%edx    # edx = len
+        xorl %eax,%eax          # result = 0
+        andl %edx,%edx          # If len <= 0, goto End
+        jle End
+Loop:   mrmovl (%ebx),%esi      # get *ls
+        irmovl $4,%edi
+        addl %edi,%ebx
+        rmmovl %esi,(%ecx)
+        addl %edi,%ecx
+        xorl %esi,%eax
+        irmovl $-1,%edi
+        addl %edi,%edx
+        jne Loop                # Stop when 0
+End:    rrmovl %ebp,%esp
+        popl %ebp
+        ret
+
+# The stack starts here and grows to lower addresses
+        .pos 0x100
+Stack:
