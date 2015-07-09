@@ -33,15 +33,17 @@ Makefile-sim
 * Example programs for Part A of the CS:APP Architecture Lab
 examples.c		C versions of three Y86 functions 
 
-sum.ys		Solution sum function (instructor distribution only)
+sum.ys		Solution for sum_list function (instructor distribution only)
 sum.yo      Result of assembling sum.ys by YAS
 sum.out     Output of excution of sum.yo by YIS
 
-rsum.ys		Solution rsum function (instructor distribution only)
+rsum.ys		Solution for rsum_list function (instructor distribution only)
 rsum.yo     Result of assembling rsum.ys by YAS
 rsum.out    Output of excution of rsum.yo by YIS
 
-copy.ys		Solution copy function (instructor distribution only)
+copy.ys		Solution for copy_block function (instructor distribution only)
+copy.yo     Result of assembling copy.ys by YAS
+copy.out    Output of excution of copy.yo by YIS
 
 
 * Instruction simulator code shared by yas, yis, ssim, ssim+, and psim
