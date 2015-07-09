@@ -1,9 +1,5 @@
 /***********************************************************************
  * Sequential Y86 Simulators
- *
- * Copyright (c) 2002, 2010,  R. Bryant and D. O'Hallaron,
- * All rights reserved.
- * May not be used, modified, or copied without permission.
  ***********************************************************************/ 
 
 This directory contains the code to construct simulators for SEQ,
@@ -18,9 +14,9 @@ to use different HCL files when working on the different homework
 problems.
 
 Binary	VERSION	HCL File	Description
-ssim	std	seq-std.hcl	Standard SEQ simulator described in textbook.
-ssim	full	seq-full.hcl	For adding iaddl and leave to SEQ.
-ssim+	std	seq+-std.hcl	Standard SEQ+ simulator described in textbook.
+ssim_std	std	seq-std.hcl	Standard SEQ simulator described in textbook.
+ssim_full	full	seq-full.hcl	For adding iaddl and leave to SEQ.
+ssim+	    std	seq+-std.hcl	Standard SEQ+ simulator described in textbook.
 
 The simulators run in either TTY or GUI mode:
 
@@ -41,13 +37,19 @@ a command line argument.
 Once you've configured the Makefile, you can build the different
 simulators with commands of the form
 
-	unix> make clean; make ssim VERSION=xxx
+	unix> make clean; make VERSION=xxx
 
 where "xxx" is one of the versions listed above.  For example, to build
 the version of SEQ described in the CS:APP text based on the control
 logic in seq-std.hcl, type
 
-	unix> make clean; make ssim VERSION=std
+	unix> make clean; make VERSION=std
+    generate ssim_std
+
+to build version of SEQ in seq-full.hcl, type
+
+	unix> make clean; make VERSION=full
+    generate ssim_full
 
 To save typing, you can also set the Makefile's VERSION variable.
 
@@ -57,7 +59,7 @@ To save typing, you can also set the Makefile's VERSION variable.
 
 The simulators take identical command line arguments:
 
-Usage: ssim [-htg] [-l m] [-v n] file.yo
+Usage: ssim_full [-htg] [-l m] [-v n] file.yo
 
 file.yo required in GUI mode, optional in TTY mode (default stdin)
 
@@ -72,7 +74,6 @@ file.yo required in GUI mode, optional in TTY mode (default stdin)
 ********
 
 Makefile		Builds the SEQ and SEQ+ simulators
-Makefile-sim		Makefile for student distribution
 README			This file
 
 seq+.tcl		TCL script for GUI version of SEQ+
@@ -83,9 +84,8 @@ sim.h
 
 seq-std.hcl		Standard SEQ control logic
 seq+-std.hcl		Standard SEQ+ control logic	
-seq-full.hcl		Template for the iaddl and leave problems (4.34-35)
 
-seq-full-ans.hcl	Solution for the iaddl and leave problems (4.34-35)
-			(Instructor distribution only)
-
+iaddl.instruction   Solution for iaddl instruction
+leave.instruction   Solution for leave instruction
+seq-full.hcl	Solution for the iaddl and leave problems (4.34-35)
 
