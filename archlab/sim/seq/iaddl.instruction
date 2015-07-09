@@ -1,0 +1,17 @@
+                iaddl V, rB
+-------------------------
+Fetch           icode:ifun <-- M1[PC]
+                rA:rB <-- M1[PC + 1]
+                valC <-- M4[PC + 2]
+                valP <-- PC +6
+
+Decode          
+                valB <-- R[rB]
+
+Execute         valE <-- valB + valC
+
+Memory
+
+Write back      R[rB] <-- valE
+
+PC update       PC <-- valP

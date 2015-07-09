@@ -1,0 +1,17 @@
+                leave
+-------------------------
+Fetch           icode:ifun <-- M1[PC]
+
+                valP <-- PC + 1
+
+Decode          valA <-- R[%ebp]
+                valB <-- R[%ebp]
+
+Execute         valE <-- valB + 4
+
+Memory          valM <-- M4[valA]
+
+Write back      R[%esp] <-- valE
+                R[%ebp] <-- valM
+
+PC update       PC <-- valP
